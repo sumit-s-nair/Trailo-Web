@@ -3,8 +3,21 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Download, Play } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function HeroSection() {
+  const [apkFilename, setApkFilename] = useState<string | null>(null);
+  
+    useEffect(() => {
+      fetch("/latest.json")
+        .then((res) => {
+          if (!res.ok) throw new Error("Could not fetch latest.json");
+          return res.json();
+        })
+        .then((data) => setApkFilename(data.filename))
+        .catch((err) => console.error("Error loading APK:", err));
+    }, []);
+
   return (
     <section className="min-h-screen flex items-center justify-center relative pt-20">
       <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
@@ -52,7 +65,7 @@ export default function HeroSection() {
           className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
         >
           <motion.a
-            href="/trailo-v1.0.1.apk"
+            href={`/${apkFilename}`}
             download
             className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 shadow-lg hover:shadow-xl border border-white/20"
             whileHover={{ scale: 1.05, y: -2 }}

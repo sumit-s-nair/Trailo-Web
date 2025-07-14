@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Download, Star, Users, MapPin } from "lucide-react";
@@ -10,7 +11,30 @@ const stats = [
   { icon: <MapPin className="w-6 h-6" />, value: "0", label: "Group Rides" }
 ];
 
+type ApkInfo = {
+  version: string;
+  filename: string;
+  date: string; // ISO format
+};
+
 export default function DownloadSection() {
+  const [apkInfo, setApkInfo] = useState<ApkInfo | null>(null);
+
+  useEffect(() => {
+    fetch("/latest.json")
+      .then((res) => res.json())
+      .then((data) => setApkInfo(data))
+      .catch((err) => console.error("Failed to load APK info:", err));
+  }, []);
+
+  const formatDateTime = (isoDate: string) => {
+    const date = new Date(isoDate);
+    return date.toLocaleString(undefined, {
+      dateStyle: "long",
+      timeStyle: "short"
+    });
+  };
+
   return (
     <section className="py-20 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,30 +61,30 @@ export default function DownloadSection() {
                 height={150}
                 className="mx-auto lg:mx-0 rounded-3xl shadow-2xl"
               />
-            </motion.div>              <motion.h2
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                viewport={{ once: true }}
-                className="text-4xl sm:text-5xl font-bold text-white mb-6"
-              >
-                Ready to{" "}
-                <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  Ride Together?
-                </span>
-              </motion.h2>
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="text-4xl sm:text-5xl font-bold text-white mb-6"
+            >
+              Ready to{" "}
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                Ride Together?
+              </span>
+            </motion.h2>
 
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                viewport={{ once: true }}
-                className="text-xl text-gray-300 mb-8 max-w-md mx-auto lg:mx-0"
-              >
-                Join the community of motorcycle riders and start your connected adventures with Trailo.
-              </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="text-xl text-gray-300 mb-8 max-w-md mx-auto lg:mx-0"
+            >
+              Join the community of motorcycle riders and start your connected adventures with Trailo.
+            </motion.p>
 
-            {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -80,9 +104,7 @@ export default function DownloadSection() {
                   <div className="text-2xl font-bold text-white mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-gray-400">
-                    {stat.label}
-                  </div>
+                  <div className="text-sm text-gray-400">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
@@ -95,53 +117,64 @@ export default function DownloadSection() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="space-y-8"
-          >              <div className="text-center lg:text-left">
-                <h3 className="text-2xl font-semibold text-white mb-4">
-                  Download the App
-                </h3>
-                <p className="text-gray-300 mb-8">
-                  Available for Android devices. Connect with your riding crew and start exploring together.
-                </p>
-              </div>
+          >
+            <div className="text-center lg:text-left">
+              <h3 className="text-2xl font-semibold text-white mb-4">
+                Download the App
+              </h3>
+              <p className="text-gray-300 mb-8">
+                Available for Android devices. Connect with your riding crew and start exploring together.
+              </p>
+            </div>
 
             <div className="space-y-4">
-              <motion.a
-                href="/trailo-v1.0.1.apk"
-                download
-                className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl border border-white/20"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Download className="w-6 h-6" />
-                <span>Download for Android</span>
-              </motion.a>
-              
-              <p className="text-sm text-gray-400 text-center">
-                Version 1.0.1 • Last updated today • 87.3 MB
-              </p>
-            </div>              <div className="pt-8 border-t border-white/10">
-                <h4 className="text-lg font-semibold text-white mb-4">
-                  What&apos;s New in v1.0.1
-                </h4>
-                <ul className="space-y-2 text-gray-300">
-                  <li className="flex items-start space-x-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>Enhanced real-time location tracking</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>Improved group chat functionality</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>New SOS and emergency features</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-blue-400 mt-1">•</span>
-                    <span>Better route planning and navigation</span>
-                  </li>
-                </ul>
-              </div>
+              {apkInfo ? (
+                <>
+                  <motion.a
+                    href={`/${apkInfo.filename}`}
+                    download
+                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl border border-white/20"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Download className="w-6 h-6" />
+                    <span>Download for Android</span>
+                  </motion.a>
+
+                  <p className="text-sm text-gray-400 text-center">
+                    Version {apkInfo.version} • Last updated {formatDateTime(apkInfo.date)}
+                  </p>
+                </>
+              ) : (
+                <p className="text-sm text-gray-400 text-center">
+                  Loading latest APK info...
+                </p>
+              )}
+            </div>
+
+            <div className="pt-8 border-t border-white/10">
+              <h4 className="text-lg font-semibold text-white mb-4">
+                What&apos;s New
+              </h4>
+              <ul className="space-y-2 text-gray-300">
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-400 mt-1">•</span>
+                  <span>Enhanced real-time location tracking</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-400 mt-1">•</span>
+                  <span>Improved group chat functionality</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-400 mt-1">•</span>
+                  <span>New SOS and emergency features</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-blue-400 mt-1">•</span>
+                  <span>Better route planning and navigation</span>
+                </li>
+              </ul>
+            </div>
           </motion.div>
         </div>
       </div>
