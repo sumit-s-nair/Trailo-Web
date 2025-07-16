@@ -71,7 +71,7 @@ export default function JourneyDemo() {
                 key={index}
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 1.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 className={`p-6 rounded-2xl border transition-all duration-500 cursor-pointer ${
                   currentStep === index
@@ -131,10 +131,10 @@ export default function JourneyDemo() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="flex justify-center lg:justify-end"
+            className="flex justify-center lg:justify-end [will-change:transform,opacity]"
           >
             <div className="relative">
-              <div className="w-72 h-[600px] bg-gray-900 rounded-[3rem] border-8 border-gray-800 shadow-2xl">
+              <div className="w-72 h-[600px] bg-gray-900 rounded-[3rem] border-8 border-gray-800 shadow-xl">
                 <div className="w-full h-full bg-gradient-to-b from-gray-100 to-gray-200 rounded-[2.2rem] p-4 relative overflow-hidden">
                   {/* Phone Screen Content */}
                   <div className="w-full h-full bg-white rounded-2xl shadow-lg p-4 relative">

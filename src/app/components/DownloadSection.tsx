@@ -14,7 +14,7 @@ const stats = [
 type ApkInfo = {
   version: string;
   filename: string;
-  date: string; // ISO format
+  date: string; 
 };
 
 export default function DownloadSection() {
@@ -39,7 +39,7 @@ export default function DownloadSection() {
     <section className="py-20 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* App Icon and Stats */}
+
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -110,7 +110,6 @@ export default function DownloadSection() {
             </motion.div>
           </motion.div>
 
-          {/* Download Content */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
