@@ -3,26 +3,11 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Download, ListPlus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { LogInIcon, LogOutIcon, LayoutDashboard } from "lucide-react";
+import { useAuth } from "../context/AuthContext"; // Adjust path
 
-// Navigation type def cause ts is lill pain in the ass
-interface NavigationProps {
-  isDev: boolean;
-}
-
-const Navigation: React.FC<NavigationProps> = ({ isDev }) => {
-  const [apkFilename, setApkFilename] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch("/latest.json")
-      .then((res) => {
-        if (!res.ok) throw new Error("Could not fetch latest.json");
-        return res.json();
-      })
-      .then((data) => setApkFilename(data.filename))
-      .catch((err) => console.error("Error loading APK:", err));
-  }, []);
+const Navigation = () => {
+  const { user, signInWithGoogle, logOut } = useAuth();
 
   return (
     <motion.nav
@@ -39,31 +24,96 @@ const Navigation: React.FC<NavigationProps> = ({ isDev }) => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <Image
+              <img
                 src="/icon.png"
                 alt="Trailo Logo"
                 width={40}
                 height={40}
                 className="rounded-lg"
               />
-
               <span className="text-2xl font-bold text-white">Trailo</span>
             </motion.div>
           </Link>
-          <motion.a
-            href={isDev ? '' : `/${apkFilename}`}
-            download
-            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isDev ? (
-              <ListPlus className="w-5 h-5" />
+
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <>
+                <motion.div
+                  className="relative"
+                  initial="closed"
+                  whileHover="open"
+                >
+                  <img
+                    src={user.photoURL!}
+                    alt={user.displayName!}
+                    width={44}
+                    height={44}
+                    className="rounded-full cursor-pointer border-2 border-transparent group-hover:border-cyan-400 transition-all"
+                  />
+
+                  {/* The Dropdown Menu */}
+                  <motion.div
+                    variants={{
+                      open: { 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1, 
+                        display: 'block' 
+                      },
+                      closed: { 
+                        opacity: 0, 
+                        y: -10, 
+                        scale: 0.95, 
+                        transitionEnd: { display: 'none' } 
+                      }
+                    }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="absolute top-full right-0 mt-2 w-56 bg-gray-800/90 backdrop-blur-md border border-white/10 rounded-xl shadow-lg"
+                  >
+                    <div className="p-2 flex flex-col space-y-1">
+                      {/* Welcome Message */}
+                      <div className="px-3 py-2 text-sm">
+                        <p className="font-semibold text-white">
+                          {user.displayName}
+                        </p>
+                        <p className="text-gray-400 truncate">
+                          {user.email}
+                        </p>
+                      </div>
+
+                      <hr className="border-white/10" />
+
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center gap-3 w-full text-left px-3 py-2 text-sm text-gray-200 rounded-md hover:bg-cyan-600 transition-colors"
+                      >
+                        <LayoutDashboard className="w-4 h-4" />
+                        <span>Dashboard</span>
+                      </Link>
+
+                      <button
+                        onClick={logOut}
+                        className="flex items-center gap-3 w-full text-left px-3 py-2 text-sm text-gray-200 rounded-md hover:bg-red-500 transition-colors"
+                      >
+                        <LogOutIcon className="w-4 h-4" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </>
             ) : (
-              <Download className="w-4 h-4" />
+              <motion.button
+                onClick={signInWithGoogle}
+                className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-100 flex items-center space-x-2 shadow-lg hover:shadow-xl"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>Sign In</span>
+                <LogInIcon className="w-5 h-5" />
+              </motion.button>
             )}
-            <span>{isDev ? "Join Waitlist" : "Download Now"}</span>
-          </motion.a>
+          </div>
         </div>
       </div>
     </motion.nav>

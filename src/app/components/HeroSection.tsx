@@ -24,7 +24,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative pt-20">
+    <section className="min-h-screen flex items-center justify-center relative pt-8">
       <div className="absolute inset-0 opacity-40">
         <Image
           src="/background-hero.jpeg"
@@ -34,20 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
         />
       </div>
       <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-8"
-        >
-          <Image
-            src="/icon.png"
-            alt="Trailo App Icon"
-            width={120}
-            height={120}
-            className="mx-auto mb-8 rounded-3xl shadow-2xl"
-          />
-        </motion.div>
+        
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -57,7 +44,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
         >
           Ride Together
           <br />
-          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
             Stay Connected
           </span>
         </motion.h1>
@@ -93,7 +80,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
             <span>{isDev ? "Join Waitlist" : "Download Now"}</span>
           </motion.a>{" "}
           <motion.a
-            href="#features"
+            onClick={() => {
+              document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+            }}
             className="border-2 border-white/70 bg-black/20 hover:border-white/90 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 hover:bg-black/50"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
