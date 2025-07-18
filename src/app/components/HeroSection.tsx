@@ -2,25 +2,38 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Download, Play } from "lucide-react";
+import { Download, ListPlus, Play } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function HeroSection() {
+// type def is necessary for TypeScript cause it hates me
+interface HeroSectionProps {
+  isDev: boolean;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
   const [apkFilename, setApkFilename] = useState<string | null>(null);
-  
-    useEffect(() => {
-      fetch("/latest.json")
-        .then((res) => {
-          if (!res.ok) throw new Error("Could not fetch latest.json");
-          return res.json();
-        })
-        .then((data) => setApkFilename(data.filename))
-        .catch((err) => console.error("Error loading APK:", err));
-    }, []);
+
+  useEffect(() => {
+    fetch("/latest.json")
+      .then((res) => {
+        if (!res.ok) throw new Error("Could not fetch latest.json");
+        return res.json();
+      })
+      .then((data) => setApkFilename(data.filename))
+      .catch((err) => console.error("Error loading APK:", err));
+  }, []);
 
   return (
     <section className="min-h-screen flex items-center justify-center relative pt-20">
-      <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 opacity-40">
+        <Image
+          src="/background-hero.jpeg"
+          alt="Hero Background"
+          layout="fill"
+          objectFit="cover"
+        />
+      </div>
+      <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,7 +68,8 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed"
         >
-          Connect with your riding crew, share real-time locations, and navigate together safely on your bike adventures.
+          Ride together, navigate as one — with live tracking, voice chat, and
+          built-in safety for every journey.
         </motion.p>
 
         <motion.div
@@ -65,24 +79,32 @@ export default function HeroSection() {
           className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
         >
           <motion.a
-            href={`/${apkFilename}`}
+            href={isDev ? '' : `/${apkFilename}`}
             download
-            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 shadow-lg hover:shadow-xl border border-white/20"
+            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 shadow-lg hover:shadow-xl"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Download className="w-5 h-5" />
-            <span>Download Now</span>
-          </motion.a>            <motion.button
-              className="border-2 border-white/30 hover:border-white/50 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 hover:bg-white/10"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Play className="w-5 h-5" />
-              <span>See Features</span>
-            </motion.button>
+            {isDev ? (
+              <ListPlus className="w-5 h-5" />
+            ) : (
+              <Download className="w-4 h-4" />
+            )}
+            <span>{isDev ? "Join Waitlist" : "Download Now"}</span>
+          </motion.a>{" "}
+          <motion.a
+            href="#features"
+            className="border-2 border-white/70 bg-black/20 hover:border-white/90 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 hover:bg-black/50"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Play className="w-5 h-5" />
+            <span>See Features</span>
+          </motion.a>
         </motion.div>
       </div>
     </section>
   );
-}
+};
+
+export default HeroSection;
