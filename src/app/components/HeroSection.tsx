@@ -97,9 +97,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
           className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
         >
           <motion.a
-            href={isDev ? "" : `/${apkFilename}`}
-            download
-            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 shadow-lg hover:shadow-xl"
+            onClick={() => {
+              document
+                .getElementById("waitlist")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="hover:cursor-pointer bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 shadow-lg hover:shadow-xl"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -108,7 +111,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
             ) : (
               <Download className="w-4 h-4" />
             )}
-            <span>{isDev ? "Join Waitlist" : "Download Now"}</span>
+            <span>Join Waitlist</span>
           </motion.a>{" "}
           <motion.a
             onClick={() => {
@@ -116,7 +119,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
                 .getElementById("features")
                 ?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="border-2 border-white/70 bg-black/20 hover:border-white/90 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 hover:bg-black/50"
+            className="hover:cursor-pointer border-2 border-white/70 bg-black/20 hover:border-white/90 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 flex items-center space-x-3 hover:bg-black/50"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -139,13 +142,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
             I know this is an AI generated image, but it looks nice and I
             don&apos;t have the resources to create a custom one right now (im
             broke). If your an artist and want to help, reach out to me by
-            clicking any link in my portfolio. I cant pay you if you havent
-            realised it but I can surely give you some credit for creating the
+            clicking any link in my portfolio. I cant pay you, but I can surely give you some credit for creating the
             artwork.
             <br />
             <br />
-            Moral of the story: If you want to help, reach out to me, If you
-            can&apos;t, don&apos;t get offended. Thanks for reading, love you.
+            Moral of the story: If you would like to help, please reach out. Thanks for reading, love you.
             <br />
             <Link
               href="https://sumit-s-nair.vercel.app/"

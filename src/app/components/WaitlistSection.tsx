@@ -3,10 +3,14 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ListPlus } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 export default function WaitlistSection() {
+  const { signInWithGoogle } = useAuth();
+
   return (
-    <section className="py-20 relative">
+    <section id='waitlist' className="py-20 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
@@ -26,8 +30,8 @@ export default function WaitlistSection() {
               <Image
                 src="/icon.png"
                 alt="Trailo App"
-                width={150}
-                height={150}
+                width={130}
+                height={130}
                 className="mx-auto lg:mx-0 rounded-3xl shadow-2xl"
               />
             </motion.div>
@@ -38,9 +42,9 @@ export default function WaitlistSection() {
               viewport={{ once: true }}
               className="text-4xl sm:text-5xl font-bold text-white mb-6"
             >
-              Ready to{" "}
+              Join our{" "}
               <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                Ride Together?
+                Community
               </span>
             </motion.h2>
 
@@ -51,8 +55,7 @@ export default function WaitlistSection() {
               viewport={{ once: true }}
               className="text-xl text-gray-300 mb-8 max-w-md mx-auto lg:mx-0"
             >
-              Join the community of motorcycle riders and start your connected
-              adventures with Trailo.
+              <a href="https://discord.gg/cEsXuJbzXG" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Join our Discord community</a> to stay updated, share your experiences, and connect with fellow riders. Be part of the Trailo journey!
             </motion.p>
           </motion.div>
 
@@ -68,20 +71,29 @@ export default function WaitlistSection() {
                 Join the Waitlist
               </h3>
               <p className="text-gray-300 mb-8">
-                Available for Android devices. Help us improve by joining our
-                waitlist and getting early access to Trailo.
+                Register and Login to join the waitlist for
+                Trailo. Be the first to be notified when the app is available for download, and stay updated with the latest features and improvements.
               </p>
             </div>
             <motion.a
-              href={""}
-              download
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl border border-white/20"
+              onClick={signInWithGoogle}
+              className="hover:cursor-pointer w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl border border-white/20"
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
               <ListPlus className="w-6 h-6" />
-              <span>Join the waitlist now</span>
+              <span>Register now</span>
             </motion.a>
+            <div className="text-center lg:text-left">
+              <h3 className="text-2xl font-semibold text-white mb-4">
+                Apply for beta testing
+              </h3>
+              <p className="text-gray-300 mb-8">
+                Register, Login and join our <a href="https://discord.gg/cEsXuJbzXG" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">discord server</a> to apply for beta access to Trailo. Help us
+                shape the future of motorcycle riding with your feedback and
+                insights.
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>

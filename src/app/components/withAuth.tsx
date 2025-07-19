@@ -2,27 +2,21 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../context/AuthContext"; // Adjust path if needed
+import { useAuth } from "../context/AuthContext"; // Make sure this returns { user, loading }
 import { ComponentType } from "react";
 
-// This is our Higher-Order Component
 const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
   const Wrapper = (props: P) => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth(); // ⬅️ Make sure your context provides `loading`
     const router = useRouter();
 
     useEffect(() => {
-      // This effect runs when the component mounts and whenever the user state changes.
-      // We check if the user object is null, which means they are not logged in.
-      if (user === null) {
-        // Redirect them to the home page if they are not authenticated.
+      if (!loading && !user) {
         router.push("/");
       }
-    }, [user, router]);
+    }, [user, loading, router]);
 
-    // While waiting for the user state to be determined, or if the user is null
-    // (and the redirect is in progress), show a loading indicator.
-    if (!user) {
+    if (loading || (!user && typeof window !== "undefined")) {
       return (
         <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
           <p>Loading & Verifying Access...</p>
@@ -30,7 +24,6 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
       );
     }
 
-    // If the user is authenticated, render the component they were trying to access.
     return <WrappedComponent {...props} />;
   };
 

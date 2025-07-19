@@ -5,9 +5,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { LogInIcon, LogOutIcon, LayoutDashboard } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useState, useEffect } from "react";
 
 const Navigation = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const { user, signInWithGoogle, logOut } = useAuth();
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768); // Customize breakpoint
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
     <motion.nav
@@ -41,7 +51,9 @@ const Navigation = () => {
                 <motion.div
                   className="relative"
                   initial="closed"
+                  animate={isOpen ? "open" : "closed"}
                   whileHover="open"
+                  onClick={isMobile ? () => setIsOpen(prev => !prev) : undefined}
                 >
                   <Image
                     src={user.photoURL!}
@@ -105,7 +117,7 @@ const Navigation = () => {
             ) : (
               <motion.button
                 onClick={signInWithGoogle}
-                className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-100 flex items-center space-x-2 shadow-lg hover:shadow-xl"
+                className="hover:cursor-pointer bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-100 flex items-center space-x-2 shadow-lg hover:shadow-xl"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
