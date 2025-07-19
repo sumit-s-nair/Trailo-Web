@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Download, Star, Users, MapPin } from "lucide-react";
-import { useAuth } from "../context/AuthContext"; // Adjust path if needed
+import { useAuth } from "../context/AuthContext";
 import withAuth from "../components/withAuth";
 
 const stats = [
   { icon: <Star className="w-6 h-6" />, value: "0", label: "User Rating" },
   { icon: <Users className="w-6 h-6" />, value: "0", label: "Active Riders" },
-  { icon: <MapPin className="w-6 h-6" />, value: "0", label: "Group Rides" }
+  { icon: <MapPin className="w-6 h-6" />, value: "0", label: "Group Rides" },
 ];
 
 type ApkInfo = {
   version: string;
   filename: string;
-  date: string; 
+  date: string;
 };
 
 function Dashboard() {
@@ -34,15 +34,17 @@ function Dashboard() {
     const date = new Date(isoDate);
     return date.toLocaleString(undefined, {
       dateStyle: "long",
-      timeStyle: "short"
+      timeStyle: "short",
     });
   };
 
   return (
     <section className="py-20 mt-25 relative">
+      <h1 className="text-4xl font-bold text-center text-white mb-12">
+        Welcome to Trailo, {user ? user.displayName : "Rider"}
+      </h1>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -85,7 +87,8 @@ function Dashboard() {
               viewport={{ once: true }}
               className="text-xl text-gray-300 mb-8 max-w-md mx-auto lg:mx-0"
             >
-              Join the community of motorcycle riders and start your connected adventures with Trailo.
+              Join the community of motorcycle riders and start your connected
+              adventures with Trailo.
             </motion.p>
 
             <motion.div
@@ -125,7 +128,8 @@ function Dashboard() {
                 Download the App
               </h3>
               <p className="text-gray-300 mb-8">
-                Available for Android devices. Connect with your riding crew and start exploring together.
+                Available for Android devices. Connect with your riding crew and
+                start exploring together.
               </p>
             </div>
 
@@ -144,7 +148,8 @@ function Dashboard() {
                   </motion.a>
 
                   <p className="text-sm text-gray-400 text-center">
-                    Version {apkInfo.version} • Last updated {formatDateTime(apkInfo.date)}
+                    Version {apkInfo.version} • Last updated{" "}
+                    {formatDateTime(apkInfo.date)}
                   </p>
                 </>
               ) : (

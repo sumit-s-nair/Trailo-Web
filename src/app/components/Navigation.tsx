@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { LogInIcon, LogOutIcon, LayoutDashboard } from "lucide-react";
-import { useAuth } from "../context/AuthContext"; // Adjust path
+import { useAuth } from "../context/AuthContext";
 
 const Navigation = () => {
   const { user, signInWithGoogle, logOut } = useAuth();
@@ -24,7 +24,7 @@ const Navigation = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <img
+              <Image
                 src="/icon.png"
                 alt="Trailo Logo"
                 width={40}
@@ -43,7 +43,7 @@ const Navigation = () => {
                   initial="closed"
                   whileHover="open"
                 >
-                  <img
+                  <Image
                     src={user.photoURL!}
                     alt={user.displayName!}
                     width={44}

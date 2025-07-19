@@ -29,8 +29,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
         <Image
           src="/background-hero.jpeg"
           alt="Hero Background"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
         />
       </div>
       <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
