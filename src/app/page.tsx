@@ -1,7 +1,7 @@
 import HeroSection from "./components/HeroSection";
 import JourneyDemo from "./components/JourneyDemo";
 import Features from "./components/Features";
-import TechStack from "./components/TechStack";
+import MeetTheDevs from "./components/MeetTheDevsSection";
 import DownloadSection from "./components/DownloadSection";
 import WaitlistSection from "./components/WaitlistSection";
 
@@ -14,7 +14,7 @@ export default function Home() {
       <HeroSection isDev={isDev} />
       <JourneyDemo />
       <Features />
-      <TechStack />
+      <MeetTheDevs />
       {/* change the download section to join waitlist section */}
       {isDev ? (
         <WaitlistSection />
