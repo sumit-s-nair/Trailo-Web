@@ -12,19 +12,8 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ isDev }) => {
-  const [apkFilename, setApkFilename] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    fetch("/latest.json")
-      .then((res) => {
-        if (!res.ok) throw new Error("Could not fetch latest.json");
-        return res.json();
-      })
-      .then((data) => setApkFilename(data.filename))
-      .catch((err) => console.error("Error loading APK:", err));
-  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

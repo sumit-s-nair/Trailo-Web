@@ -5,7 +5,7 @@ import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Star, Users, MapPin, ListPlus, List } from "lucide-react";
+import { Star, Users, MapPin, ListPlus } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import withAuth from "../components/withAuth";
 import MeetTheDevsSection from "./MeetTheDevsSection";

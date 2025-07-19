@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { ListPlus } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
 
 export default function WaitlistSection() {
   const { signInWithGoogle } = useAuth();
